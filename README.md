@@ -123,4 +123,4 @@ Step 4: Create lookup interface
 
 ```
 ----------------------------------
-Document:  https://api-doc.postcode-jp.com/#api-v5
+Document:  https://app.zipcodebase.com/documentation
