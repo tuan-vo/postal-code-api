@@ -2,50 +2,39 @@
 
 ## JSON data:
 ```
-[
-    {
-        "prefCode": "13",
-        "cityCode": "101",
-        "postcode": "1000001",
-        "oldPostcode": "100",
-        "pref": "東京都",
-        "city": "千代田区",
-        "town": "千代田",
-        "allAddress": "東京都千代田区千代田",
-        "hiragana": {
-            "pref": "とうきょうと",
-            "city": "ちよだく",
-            "town": "ちよだ",
-            "allAddress": "とうきょうとちよだくちよだ"
-        },
-        "halfWidthKana": {
-            "pref": "ﾄｳｷｮｳﾄ",
-            "city": "ﾁﾖﾀﾞｸ",
-            "town": "ﾁﾖﾀﾞ",
-            "allAddress": "ﾄｳｷｮｳﾄﾁﾖﾀﾞｸﾁﾖﾀﾞ"
-        },
-        "fullWidthKana": {
-            "pref": "トウキョウト",
-            "city": "チヨダク",
-            "town": "チヨダ",
-            "allAddress": "トウキョウトチヨダクチヨダ"
-        },
-        "generalPostcode": true,
-        "officePostcode": false,
-        "location": {
-            "latitude": 35.683799743652344,
-            "longitude": 139.7539520263672
-        }
+{
+    "query": {
+        "codes": [
+            "1500043"
+        ],
+        "country": "jp"
+    },
+    "results": {
+        "1500043": [
+            {
+                "postal_code": "150-0043",
+                "country_code": "JP",
+                "latitude": 35.6575,
+                "longitude": 139.6982,
+                "city": "Dogenzaka",
+                "state": "Tokyo To",
+                "city_en": "Dogenzaka",
+                "state_en": "Tokyo To",
+                "state_code": "40"
+            }
+        ]
     }
-]
+}
 ```
 
 ## Implementation steps:
-Step 1: Install the Guzzle HTTP package
+Step 1: Create an account and login (https://app.zipcodestack.com/)
+
+Step 2: Install the Guzzle HTTP package
 ```
 composer require guzzlehttp/guzzle
 ```
-Step 2: Create route and controller
+Step 3: Create route and controller
 1. in routes/web.php
 ```
 Route::get('/postal-code', [PostalCodeController::class, 'showForm'])->name('postal_code.form');
@@ -78,7 +67,18 @@ class PostalCodeController extends Controller
         
         $client = new Client();
         
-        $response = $client->get("https://apis.postcode-jp.com/api/v5/postcodes/{$postcode}");
+        $response = $client->get(
+            'https://api.zipcodestack.com/v1/search',
+            [
+                'headers' => [
+                    'apikey' => '01H40JGENKQPCNJHWNZ064TX1X',
+                ],
+                'query' => [
+                    'codes'=>  $postcode,
+                    'country'=> 'jp',
+                ],
+            ]
+        );
         
         $data = json_decode($response->getBody(), true);
         
@@ -87,8 +87,10 @@ class PostalCodeController extends Controller
         return view('postal_code', ['data' => $encodedData]);
     }
 }
+
+
 ```
-Step 3: Create lookup interface
+Step 4: Create lookup interface
 1. Create resources/views/postal_code.blade.php
 2. In resources/views/postal_code.blade.php:
 ```
@@ -115,4 +117,4 @@ Step 3: Create lookup interface
 
 ```
 ----------------------------------
-Document:  https://api-doc.postcode-jp.com/#api-v5
+Document:  https://zipcodestack.com/documentation/

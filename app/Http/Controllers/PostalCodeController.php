@@ -19,7 +19,18 @@ class PostalCodeController extends Controller
         
         $client = new Client();
         
-        $response = $client->get("https://apis.postcode-jp.com/api/v5/postcodes/{$postcode}");
+        $response = $client->get(
+            'https://api.zipcodestack.com/v1/search',
+            [
+                'headers' => [
+                    'apikey' => '01H40JGENKQPCNJHWNZ064TX1X',
+                ],
+                'query' => [
+                    'codes'=>  $postcode,
+                    'country'=> 'jp',
+                ],
+            ]
+        );
         
         $data = json_decode($response->getBody(), true);
         
