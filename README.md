@@ -68,4 +68,4 @@ Step 3: Create lookup interface and hanlde
 
 ```
 ----------------------------------
-Document:  https://api-doc.postcode-jp.com/#api-v5
+Document:  https://www.npmjs.com/package/japan-postal-code
