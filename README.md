@@ -42,6 +42,7 @@
 ```
 ## Implementation steps:
 Step 1: Create an account and login (https://app.zipcodebase.com)
+
 Step 2: Install the Guzzle HTTP package
 ```
 composer require guzzlehttp/guzzle
