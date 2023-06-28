@@ -17,6 +17,7 @@ use App\Http\Controllers\PostalCodeController;
 Route::get('/', function () {
     return view('home');
 });
+Route::get('/postal-code', function () {
+    return view('postal_code');
+});
 
-Route::get('/postal-code', [PostalCodeController::class, 'showForm'])->name('postal_code.form');
-Route::get('/postal-code/lookup', [PostalCodeController::class, 'lookup'])->name('postal_code.lookup');

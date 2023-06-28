@@ -1,94 +1,25 @@
-# Postal code investigation using postcode-jp
+# Postal code investigation using Japan Postal code
 
 ## JSON data:
 ```
-[
-    {
-        "prefCode": "13",
-        "cityCode": "101",
-        "postcode": "1000001",
-        "oldPostcode": "100",
-        "pref": "東京都",
-        "city": "千代田区",
-        "town": "千代田",
-        "allAddress": "東京都千代田区千代田",
-        "hiragana": {
-            "pref": "とうきょうと",
-            "city": "ちよだく",
-            "town": "ちよだ",
-            "allAddress": "とうきょうとちよだくちよだ"
-        },
-        "halfWidthKana": {
-            "pref": "ﾄｳｷｮｳﾄ",
-            "city": "ﾁﾖﾀﾞｸ",
-            "town": "ﾁﾖﾀﾞ",
-            "allAddress": "ﾄｳｷｮｳﾄﾁﾖﾀﾞｸﾁﾖﾀﾞ"
-        },
-        "fullWidthKana": {
-            "pref": "トウキョウト",
-            "city": "チヨダク",
-            "town": "チヨダ",
-            "allAddress": "トウキョウトチヨダクチヨダ"
-        },
-        "generalPostcode": true,
-        "officePostcode": false,
-        "location": {
-            "latitude": 35.683799743652344,
-            "longitude": 139.7539520263672
-        }
-    }
-]
+{
+  "prefecture": "東京都",
+  "city": "渋谷区",
+  "area": "道玄坂",
+  "street": ""
+}
 ```
 
 ## Implementation steps:
-Step 1: Install the Guzzle HTTP package
+Step 1: Install:
 ```
-composer require guzzlehttp/guzzle
+npm install japan-postal-code
 ```
-Step 2: Create route and controller
-1. in routes/web.php
+Step 2: Create resource/js/postalcode.js
 ```
-Route::get('/postal-code', [PostalCodeController::class, 'showForm'])->name('postal_code.form');
-Route::get('/postal-code/lookup', [PostalCodeController::class, 'lookup'])->name('postal_code.lookup');
+window.postal_code = require('japan-postal-code');
 ```
-2. create controller:
-```
-php artisan make:controller PostalCodeController
-```
-3. in app/Http/controllers/PostalCodeController.php:
-```
-<?php
-
-namespace App\Http\Controllers;
-
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
-
-class PostalCodeController extends Controller
-{
-    public function showForm()
-    {
-        return view('postal_code');
-    }
-
-    public function lookup(Request $request)
-    {
-        //check remove dash
-        $postcode = str_replace('-', '', $request->input('postcode'));
-        
-        $client = new Client();
-        
-        $response = $client->get("https://apis.postcode-jp.com/api/v5/postcodes/{$postcode}");
-        
-        $data = json_decode($response->getBody(), true);
-        
-        $encodedData = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        
-        return view('postal_code', ['data' => $encodedData]);
-    }
-}
-```
-Step 3: Create lookup interface
+Step 3: Create lookup interface and hanlde
 1. Create resources/views/postal_code.blade.php
 2. In resources/views/postal_code.blade.php:
 ```
@@ -100,18 +31,40 @@ Step 3: Create lookup interface
 <body>
     <h1>Postal Code Lookup</h1>
     
-    <form action="{{ route('postal_code.lookup') }}" method="GET">
+    <form id="lookupForm">
         <label for="postcode">Enter Postal Code:</label>
         <input type="text" id="postcode" name="postcode" required>
         <button type="submit">Lookup</button>
     </form>
     
-    @if(isset($data))
+    <div id="resultContainer" style="display: none;">
         <h2>Result:</h2>
-        <pre>{{ $data }}</pre>
-    @endif
+        <pre id="result"></pre>
+    </div>
+    
+    <script src="{{ asset('js/postalcode.js') }}"></script>
+    <script>
+        // Wait for the DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            const lookupForm = document.getElementById('lookupForm');
+            const resultContainer = document.getElementById('resultContainer');
+            const result = document.getElementById('result');
+            
+            lookupForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form submission
+                
+                const postcode = document.getElementById('postcode').value;
+                postal_code.get(postcode, function(address) {
+                    // Display the result
+                    result.textContent = JSON.stringify(address, null, 2);
+                    resultContainer.style.display = 'block';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
+
 
 ```
 ----------------------------------
