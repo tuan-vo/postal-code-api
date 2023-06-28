@@ -1,4 +1,4 @@
-# Postal code investigation using postcode-jp
+# Postal code investigation using zipcodebase
 ## JSON data:
 ```
 {
