@@ -16,10 +16,16 @@ class PostalCodeController extends Controller
     {
         //check remove dash
         $postcode = str_replace('-', '', $request->input('postcode'));
+
+        $apiKey = '2c815780-1582-11ee-9df1-cbf0c013a37d';
         
         $client = new Client();
         
-        $response = $client->get("https://apis.postcode-jp.com/api/v5/postcodes/{$postcode}");
+        $response = $client->get("https://app.zipcodebase.com/api/v1/search?codes={$postcode}", [
+            'headers' => [
+                'apikey' => $apiKey,
+            ],
+        ]);
         
         $data = json_decode($response->getBody(), true);
         
