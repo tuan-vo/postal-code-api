@@ -6,7 +6,7 @@
         "codes": [
             "1000001"
         ],
-        "country": "JP"
+        "country": "jp"
     },
     "results": {
         "1000001": [
@@ -65,13 +65,17 @@ class PostalCodeController extends Controller
         //check remove dash
         $postcode = str_replace('-', '', $request->input('postcode'));
 
-        $apiKey = 'your_APIKey';
+        $apiKey = '2c815780-1582-11ee-9df1-cbf0c013a37d';
         
         $client = new Client();
         
-        $response = $client->get("https://app.zipcodebase.com/api/v1/search?codes={$postcode}", [
+        $response = $client->get("https://app.zipcodebase.com/api/v1/search", [
             'headers' => [
                 'apikey' => $apiKey,
+            ],
+            'query' => [
+                'codes'=>  $postcode,
+                'country'=> 'jp',
             ],
         ]);
         
@@ -82,6 +86,7 @@ class PostalCodeController extends Controller
         return view('postal_code', ['data' => $encodedData]);
     }
 }
+
 
 ```
 Step 4: Create lookup interface

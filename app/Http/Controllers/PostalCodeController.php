@@ -21,9 +21,13 @@ class PostalCodeController extends Controller
         
         $client = new Client();
         
-        $response = $client->get("https://app.zipcodebase.com/api/v1/search?codes={$postcode}&country=JP", [
+        $response = $client->get("https://app.zipcodebase.com/api/v1/search", [
             'headers' => [
                 'apikey' => $apiKey,
+            ],
+            'query' => [
+                'codes'=>  $postcode,
+                'country'=> 'jp',
             ],
         ]);
         
