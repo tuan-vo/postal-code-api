@@ -1,5 +1,46 @@
-## Postal code investigation using postcode-jp
-# Implementation steps:
+# Postal code investigation using postcode-jp
+
+## JSON data:
+```
+[
+    {
+        "prefCode": "13",
+        "cityCode": "101",
+        "postcode": "1000001",
+        "oldPostcode": "100",
+        "pref": "東京都",
+        "city": "千代田区",
+        "town": "千代田",
+        "allAddress": "東京都千代田区千代田",
+        "hiragana": {
+            "pref": "とうきょうと",
+            "city": "ちよだく",
+            "town": "ちよだ",
+            "allAddress": "とうきょうとちよだくちよだ"
+        },
+        "halfWidthKana": {
+            "pref": "ﾄｳｷｮｳﾄ",
+            "city": "ﾁﾖﾀﾞｸ",
+            "town": "ﾁﾖﾀﾞ",
+            "allAddress": "ﾄｳｷｮｳﾄﾁﾖﾀﾞｸﾁﾖﾀﾞ"
+        },
+        "fullWidthKana": {
+            "pref": "トウキョウト",
+            "city": "チヨダク",
+            "town": "チヨダ",
+            "allAddress": "トウキョウトチヨダクチヨダ"
+        },
+        "generalPostcode": true,
+        "officePostcode": false,
+        "location": {
+            "latitude": 35.683799743652344,
+            "longitude": 139.7539520263672
+        }
+    }
+]
+```
+
+## Implementation steps:
 Step 1: Install the Guzzle HTTP package
 ```
 composer require guzzlehttp/guzzle
