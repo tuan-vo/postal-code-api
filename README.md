@@ -6,7 +6,7 @@
         "codes": [
             "1000001"
         ],
-        "country": null
+        "country": "JP"
     },
     "results": {
         "1000001": [
@@ -22,19 +22,6 @@
                 "state_code": "40",
                 "province": "Chiyoda Ku",
                 "province_code": "1864529"
-            },
-            {
-                "postal_code": "1000-001",
-                "country_code": "PT",
-                "latitude": "38.71670000",
-                "longitude": "-9.13330000",
-                "city": "Lisboa",
-                "state": "Lisboa",
-                "city_en": "Lisboa",
-                "state_en": "Lisboa",
-                "state_code": "14",
-                "province": "Lisboa",
-                "province_code": "1106"
             }
         ]
     }
