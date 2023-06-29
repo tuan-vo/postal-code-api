@@ -95,4 +95,4 @@ Step 3: Create lookup interface
 
 ```
 ----------------------------------
-Document:  https://api-doc.postcode-jp.com/#api-v5
+Document:  http://zipcloud.ibsnet.co.jp/doc/api
