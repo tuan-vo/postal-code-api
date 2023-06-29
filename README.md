@@ -1,43 +1,23 @@
-# Postal code investigation using postcode-jp
+# Postal code investigation using zipcloud
 
 ## JSON data:
 ```
-[
-    {
-        "prefCode": "13",
-        "cityCode": "101",
-        "postcode": "1000001",
-        "oldPostcode": "100",
-        "pref": "東京都",
-        "city": "千代田区",
-        "town": "千代田",
-        "allAddress": "東京都千代田区千代田",
-        "hiragana": {
-            "pref": "とうきょうと",
-            "city": "ちよだく",
-            "town": "ちよだ",
-            "allAddress": "とうきょうとちよだくちよだ"
-        },
-        "halfWidthKana": {
-            "pref": "ﾄｳｷｮｳﾄ",
-            "city": "ﾁﾖﾀﾞｸ",
-            "town": "ﾁﾖﾀﾞ",
-            "allAddress": "ﾄｳｷｮｳﾄﾁﾖﾀﾞｸﾁﾖﾀﾞ"
-        },
-        "fullWidthKana": {
-            "pref": "トウキョウト",
-            "city": "チヨダク",
-            "town": "チヨダ",
-            "allAddress": "トウキョウトチヨダクチヨダ"
-        },
-        "generalPostcode": true,
-        "officePostcode": false,
-        "location": {
-            "latitude": 35.683799743652344,
-            "longitude": 139.7539520263672
+{
+    "message": null,
+    "results": [
+        {
+            "address1": "東京都",
+            "address2": "千代田区",
+            "address3": "千代田",
+            "kana1": "ﾄｳｷｮｳﾄ",
+            "kana2": "ﾁﾖﾀﾞｸ",
+            "kana3": "ﾁﾖﾀﾞ",
+            "prefcode": "13",
+            "zipcode": "1000001"
         }
-    }
-]
+    ],
+    "status": 200
+}
 ```
 
 ## Implementation steps:
@@ -78,7 +58,7 @@ class PostalCodeController extends Controller
         
         $client = new Client();
         
-        $response = $client->get("https://apis.postcode-jp.com/api/v5/postcodes/{$postcode}");
+        $response = $client->get("https://zipcloud.ibsnet.co.jp/api/search?zipcode={$postcode}");
         
         $data = json_decode($response->getBody(), true);
         
